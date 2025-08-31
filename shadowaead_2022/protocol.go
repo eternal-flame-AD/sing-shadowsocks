@@ -17,7 +17,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/sagernet/sing-shadowsocks"
+	shadowsocks "github.com/sagernet/sing-shadowsocks"
 	"github.com/sagernet/sing-shadowsocks/shadowaead"
 	"github.com/sagernet/sing/common"
 	"github.com/sagernet/sing/common/buf"
@@ -367,7 +367,7 @@ func (c *clientConn) readResponse() error {
 	}
 
 	diff := int(math.Abs(float64(c.time().Unix() - int64(epoch))))
-	if diff > 30 {
+	if diff > 300 {
 		return E.Extend(ErrBadTimestamp, "received ", epoch, ", diff ", diff, "s")
 	}
 
@@ -631,7 +631,7 @@ func (c *clientPacketConn) ReadPacket(buffer *buf.Buffer) (M.Socksaddr, error) {
 	}
 
 	diff := int(math.Abs(float64(c.time().Unix() - int64(epoch))))
-	if diff > 30 {
+	if diff > 300 {
 		return M.Socksaddr{}, E.Extend(ErrBadTimestamp, "received ", epoch, ", diff ", diff, "s")
 	}
 

@@ -16,7 +16,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/sagernet/sing-shadowsocks"
+	shadowsocks "github.com/sagernet/sing-shadowsocks"
 	"github.com/sagernet/sing-shadowsocks/shadowaead"
 	"github.com/sagernet/sing/common"
 	"github.com/sagernet/sing/common/buf"
@@ -193,7 +193,7 @@ func (s *Service) newConnection(ctx context.Context, conn net.Conn, metadata M.M
 	}
 
 	diff := int(math.Abs(float64(s.time().Unix() - int64(epoch))))
-	if diff > 30 {
+	if diff > 300 {
 		return E.Extend(ErrBadTimestamp, "received ", epoch, ", diff ", diff, "s")
 	}
 
@@ -464,7 +464,7 @@ process:
 		goto returnErr
 	}
 	diff := int(math.Abs(float64(s.time().Unix() - int64(epoch))))
-	if diff > 30 {
+	if diff > 300 {
 		err = E.Extend(ErrBadTimestamp, "received ", epoch, ", diff ", diff, "s")
 		goto returnErr
 	}

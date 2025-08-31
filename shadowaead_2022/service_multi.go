@@ -13,7 +13,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/sagernet/sing-shadowsocks"
+	shadowsocks "github.com/sagernet/sing-shadowsocks"
 	"github.com/sagernet/sing-shadowsocks/shadowaead"
 	"github.com/sagernet/sing/common"
 	"github.com/sagernet/sing/common/auth"
@@ -205,7 +205,7 @@ func (s *MultiService[U]) NewConnection0(ctx context.Context, conn net.Conn, met
 		return E.Cause(err, "read timestamp")
 	}
 	diff := int(math.Abs(float64(s.time().Unix() - int64(epoch))))
-	if diff > 30 {
+	if diff > 300 {
 		return E.Extend(ErrBadTimestamp, "received ", epoch, ", diff ", diff, "s")
 	}
 	var length uint16
@@ -354,7 +354,7 @@ process:
 		goto returnErr
 	}
 	diff := int(math.Abs(float64(s.time().Unix() - int64(epoch))))
-	if diff > 30 {
+	if diff > 300 {
 		err = E.Extend(ErrBadTimestamp, "received ", epoch, ", diff ", diff, "s")
 		goto returnErr
 	}
